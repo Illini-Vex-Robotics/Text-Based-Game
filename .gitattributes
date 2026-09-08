@@ -1,0 +1,19 @@
+* text=auto
+
+*.cpp text
+*.h   text
+*.md  text
+CMakeLists.txt text
+.gitignore     text
+.gitattributes text
+
+*.sh  text eol=lf
+*.bat text eol=crlf
+
+*.exe binary
+*.pdb binary
+*.obj binary
+*.lib binary
+*.dll binary
+*.png binary
+*.jpg binary
