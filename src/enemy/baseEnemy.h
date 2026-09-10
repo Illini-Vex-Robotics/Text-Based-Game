@@ -23,10 +23,3 @@ class baseEnemy {
 
 
 
-class enemy2 : public baseEnemy{
-
-};
-
-class enemy3 : public baseEnemy {
-
-};
