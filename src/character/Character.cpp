@@ -1,28 +1,30 @@
 #include "Character.h"
+#include "Enemy.h"
 
-Character::Character(int h, int a, int d): health(h), attack(a), defense(d) {}
+Character::Character(int h, int a, int d): hp(h), atk(a), def(d) {}
 
 int Character::getHealth() {
-    return health;
+    return hp;
 }
 
 int Character::getAttack() {
-    return attack;
+    return atk;
 }
 
 int Character::getDefense() {
-    return defense;
+    return def;
 }
 
 void Character::takeDamage(int damage) {
-    health -= damage;
-    if (health < 0) {
-        health = 0;
+    hp -= damage;
+    if (hp < 0) {
+        hp = 0;
     }
 }
 
-void Character:attack(Enemy& target) {
-    target.takeDamage(this->attack);
+void Character::attack(Enemy& target) {
+    int damage = this->atk;
+    target.takeDamage(damage);
 }
 
 

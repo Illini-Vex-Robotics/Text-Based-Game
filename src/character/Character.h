@@ -13,7 +13,7 @@ class Character {
         void takeDamage(int damage);
         void attack(Enemy& target);
     private:
-        int health;
-        int attack;
-        int defense;
+        int hp;
+        int atk;
+        int def;
 };
