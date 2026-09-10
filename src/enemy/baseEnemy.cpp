@@ -1,5 +1,6 @@
 #include "baseEnemy.h"
 #include <vector>
+#include <cstdlib>
 
 baseEnemy::baseEnemy() {
     health = 100;
@@ -16,3 +17,5 @@ bool baseEnemy::isDead() {
     else return false;
 }
 
+// This gives a range [0, 100]
+// rand() % 101 
