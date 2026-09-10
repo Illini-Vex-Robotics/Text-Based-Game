@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-#include "baseCharacter.h"
-=======
 #include "baseCharacter.h"
 #include "enemy/baseEnemy.h"
 
@@ -37,4 +34,3 @@ private:
     int attackPower;
     int defense;
 };
->>>>>>> origin/tonyCow
