@@ -26,7 +26,7 @@ darthVader::forceHeal(){
 darthVader::forceChoke(){
     if(checkTurn()){
         stamina = 20;
-        std::cout << "Darth Vader used force heal" << endl;
+        std::cout << "Darth Vader used force choke" << endl;
         return 80;
     }
     return 0;

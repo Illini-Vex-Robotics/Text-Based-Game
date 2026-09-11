@@ -19,8 +19,8 @@ class gambler : public baseEnemy {
         int coinFlip();
         // Has to go to rehab which increases his health, but decreases his multiplier
         int rehab();
-        // Makes the other team a deal where they gain random health, but he gains higher multiplier 
-        // If they decline he does a little damage
+        // Either does massive damage or massive healing
         int dealOrNo();
+        // Increases his multiplier and does set damage (his ace to pull)
         void ace();
 };

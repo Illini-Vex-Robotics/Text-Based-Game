@@ -16,7 +16,7 @@ int gambler::pickMove() {
 }
 // Can do a lot of damage if they get lucky
 // Will either do 40, 80, 120, 160, 200, 500
-int jackpot() {
+int gambler::jackpot() {
     int randDam = rand() % 101;
     if (randDam >= 80) return 40;
     else if (randDam >= 60) return 80;
@@ -27,3 +27,7 @@ int jackpot() {
 }
 
 // Has to stop gambaling
+int gambler::rehab() {
+    setHealth(getHealth() + 200);
+    multiplier -= 0.3;
+}

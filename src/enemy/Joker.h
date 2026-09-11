@@ -1,9 +1,11 @@
 #include "baseEnemy.cpp"
 
-class gustavoFring : public baseEnemy {
+class joker : public baseEnemy {
 
 public: 
-    
+    joker();
+    int fakeGun();
+    int eatP
 
 
 

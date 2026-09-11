@@ -25,8 +25,6 @@ int grunt::specialAttack() {
 // heal a little 
 int grunt::heal() {
     setHealth(health+20);
-    if (health > maxHealth) health = maxHealth;
-    return 0;
 }
 // 1% chance of happening, but will do massive damage
 int grunt::getLucky() {
