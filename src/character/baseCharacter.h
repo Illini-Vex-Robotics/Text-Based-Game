@@ -2,22 +2,39 @@
 #pragma once
 
 #include "enemy/baseEnemy.h"
+#include <vector>
+
+using namespace std;
 
 class BaseCharacter {
 public:
-    BaseCharacter(int h, int a, int d): health(h), attackPower(a), defense(d){}
+    struct attackInfo {
+        string name;
+        string description;
+        int minDamage;
+        int maxDamage;
+        int defenseModifier;
+    };
+
+    BaseCharacter(int h, vector<attackInfo> ai, int d): health(h), defense(d), attacks(ai){}
     int getHealth();
     void takeDamage(int damage);
-    int getAttackPower();
-    void setAttackPower(int a);
+
+    void getAttack(int index, baseEnemy& enemy);
+    void listAttacks();
+
     int getDefense();
     void setDefense(int d);
     void takeDamage(int damage);
 
-    void attack(Enemy& enemy);
+    void attack(baseEnemy& enemy, int damage);
     
 private:
     int health;
-    int attackPower;
+    vector<attackInfo> attacks;
+    /*
+    attackInfo attack1 = attack(name, gerg, sgeg, ewf)
+    attacks.push_back(attack1)
+    */
     int defense;
 };

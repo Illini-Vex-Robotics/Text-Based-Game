@@ -5,20 +5,18 @@
 class baseEnemy {
     protected:
         int health;
-        int damage;
+        int maxHealth;
+        
 
     public:
         baseEnemy();
-        baseEnemy(int h, int d);
-        void takeDamage(int damageTaken) {damage -= damageTaken;};
+        baseEnemy(int maxH);
+        void takeDamage(int damageTaken) {health -= damageTaken;};
         int getHealth() {return health;};
-        int getDamage() {return damage;};
-        void setDamage(int d) {damage = d;};
         void setHealth(int h) {health = h;};
         bool isDead();
-
-
-
+        virtual int pickMove() = 0;
+        
 };
 
 

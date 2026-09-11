@@ -4,12 +4,12 @@
 
 baseEnemy::baseEnemy() {
     health = 100;
-    damage = 100;
+    maxHealth = 100;
 }
 
-baseEnemy::baseEnemy(int h, int d) {
-    health = h;
-    damage = d;
+baseEnemy::baseEnemy(int maxH) {
+    maxHealth = maxH;
+    health = maxHealth;
 }
 
 bool baseEnemy::isDead() {
@@ -17,5 +17,9 @@ bool baseEnemy::isDead() {
     else return false;
 }
 
-// This gives a range [0, 100]
-// rand() % 101 
+
+
+// This gives a range [1, 100]
+// rand() % 100 + 1 
+
+// rand() % (max-min+1) + min
