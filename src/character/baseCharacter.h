@@ -20,6 +20,8 @@ public:
     int getHealth();
     void takeDamage(int damage);
 
+    void addAttack(attackInfo& atk);
+
     void getAttack(int index, baseEnemy& enemy);
     void listAttacks();
 

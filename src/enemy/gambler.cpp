@@ -7,6 +7,7 @@ gambler::gambler() {
     srand(time(NULL));
     int randHealth = rand() % 601 + 200;
     baseEnemy(randHealth);
+    isSkiped = false;
 }
 
 

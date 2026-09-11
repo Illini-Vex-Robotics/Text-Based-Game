@@ -37,6 +37,10 @@ void BaseCharacter::getAttack(int index, baseEnemy& enemy){
     attack(enemy, damage);
 }
 
+void BaseCharacter::addAttack(attackInfo& atk){
+    attacks.push_back(atk);
+}
+
 void BaseCharacter::listAttacks() {
     for(attackInfo& a : attacks){
         cout << "Attack name: " + a.name + '\n' + "Attack desc: " + a.description + '\n' + "Damage Range: " + 
