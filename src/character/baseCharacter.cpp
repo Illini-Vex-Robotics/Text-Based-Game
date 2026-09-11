@@ -1,11 +1,6 @@
-<<<<<<< HEAD
 #include "baseCharacter.h"
-=======
 #include "baseCharacter.h"
-#include "enemy/baseEnemy.h"
 
-class BaseCharacter {
-public: 
 BaseCharacter::BaseCharacter(int h, int a, int d): health(h), attackPower(a), defense(d){}
 
 int BaseCharacter::getHealth(){
@@ -31,10 +26,3 @@ void BaseCharacter::setDefense(int d){
 void attack(Enemy& enemy){
     enemy.takeDamage(getAttackPower());
 }
-
-private:
-    int health;
-    int attackPower;
-    int defense;
-};
->>>>>>> origin/tonyCow

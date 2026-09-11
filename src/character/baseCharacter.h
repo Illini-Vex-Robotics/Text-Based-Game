@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 #pragma once
-=======
 #pragma once
+
 #include "enemy/baseEnemy.h"
 
 class BaseCharacter {
@@ -22,4 +21,3 @@ private:
     int attackPower;
     int defense;
 };
->>>>>>> origin/tonyCow
