@@ -11,6 +11,10 @@ add_executable(TextBasedGame
     src/main.cpp
     src/character/baseCharacter.cpp
     src/enemy/baseEnemy.cpp
+    src/enemy/grunt.cpp
+    src/enemy/gambler.cpp
+    src/enemy/Joker.cpp
+    src/enemy/darthVader.cpp
 )
 
 # Lets any file include headers as paths from src/,

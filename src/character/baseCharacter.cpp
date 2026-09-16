@@ -1,14 +1,19 @@
 #include "baseCharacter.h"
 #include "baseCharacter.h"
+#include "../enemy/baseEnemy.h"
 #include <cmath>
 #include <random>
 #include <limits>
 
 using namespace std;
 
-BaseCharacter::BaseCharacter(int h, vector<BaseCharacter::attackInfo> a, int d) : health(h), attacks(a), defense(d) {}
+BaseCharacter::BaseCharacter(int h, vector<BaseCharacter::attackInfo> a, int d) : health(h), attacks(a), defense(d), maxHealth(h) {}
 int BaseCharacter::getHealth(){
     return this->health;
+}
+
+int BaseCharacter::getMaxHealth(){
+    return this->maxHealth;
 }
 
 void BaseCharacter::takeDamage(int damage){
@@ -20,7 +25,7 @@ void BaseCharacter::takeDamage(int damage){
 //call take damage
 //modify our own defense
 
-void BaseCharacter::getAttack(int index, baseEnemy& enemy){
+void BaseCharacter::getAttack(int index, baseEnemy* enemy){
     if(index < 0 || index > (int)attacks.size()){
         throw out_of_range("Not an attack!");
         return;
@@ -42,9 +47,10 @@ void BaseCharacter::addAttack(attackInfo& atk){
 }
 
 void BaseCharacter::listAttacks() {
-    for(attackInfo& a : attacks){
-        cout << "Attack name: " + a.name + '\n' + "Attack desc: " + a.description + '\n' + "Damage Range: " + 
-        to_string(a.minDamage) + "~" + to_string(a.maxDamage) + '\n' + to_string(a.defenseModifier) << '\n\n';
+    for(int i = 0; i < attacks.size(); i++){
+        attackInfo& a = attacks[i];
+        cout << std::to_string(i + 1) + ". Attack name: " + a.name + '\n' + "Attack desc: " + a.description + '\n' + "Damage Range: " + 
+        to_string(a.minDamage) + "~" + to_string(a.maxDamage) + '\n' + to_string(a.baseDefense) << '\n\n';
     }
 }
 
@@ -56,7 +62,15 @@ void BaseCharacter::setDefense(int d){
 }
 
 // Interaction
-void attack(baseEnemy& enemy, int damage){
-    enemy.takeDamage(damage);
+void BaseCharacter::attack(baseEnemy* enemy, int damage){
+    enemy->takeDamage(damage);
+}
+
+int BaseCharacter::getMaxHealth() {
+    return maxHealth;
+}
+
+std::vector<BaseCharacter::attackInfo> BaseCharacter::getAttacks() {
+    return attacks;
 }
 

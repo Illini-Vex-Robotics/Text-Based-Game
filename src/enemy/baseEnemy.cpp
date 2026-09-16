@@ -1,6 +1,4 @@
 #include "baseEnemy.h"
-#include <vector>
-#include <cstdlib>
 
 baseEnemy::baseEnemy() {
     health = 100;
@@ -13,17 +11,16 @@ baseEnemy::baseEnemy(int maxH) {
 }
 
 bool baseEnemy::isDead() {
-    if (health <= 0) return true;
-    else return false;
-}
-void baseEnemy:setHealth(int h) {
-    health += h;
-    if (maxHealth < health) health = maxHealth;
+    return health <= 0;
 }
 
-
+void baseEnemy::setHealth(int h) {
+    health = h;
+    if (health > maxHealth) health = maxHealth;
+    if (health < 0) health = 0;
+}
 
 // This gives a range [1, 100]
-// rand() % 100 + 1 
+// rand() % 100 + 1
 
 // rand() % (max-min+1) + min

@@ -1,23 +1,25 @@
-#include "baseEnemy.cpp"
+#pragma once
+#include "enemy/baseEnemy.h"
 
 class darthVader : public baseEnemy {
     private:
         int stamina;
-        bool checkTurn(){
-            int rand = rand() % 101;
-            if(rand <= stamina){return true;}
-            else{
-                stamina = 100;
-                std::cout << "Didn't have enough stamina to attack" << endl;
-                return false;
-            }
-        }
+        // Rolls against the stamina the last move left behind. On a failed roll
+        // the turn is wasted and stamina is restored to full.
+        bool checkTurn();
+
     public:
+        // The moves darthVader can roll on its turn.
+        enum move { FORCE_PUSH, FORCE_HEAL, FORCE_CHOKE, YOUNGLING_SLAYER, THROW_SHIT };
+
         darthVader();
+
+        int pickMove() override;
+        int attack() override;
+
         int forcePush();
         int forceHeal();
         int forceChoke();
         int younglingSlayer();
         int throwShit();
-        int attack();
 };

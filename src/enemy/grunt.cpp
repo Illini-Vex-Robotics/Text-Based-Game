@@ -1,32 +1,38 @@
 #include "grunt.h"
 
-grunt() {
-    baseEnemy();
-}
+grunt::grunt() : baseEnemy(50) {}
 
 int grunt::pickMove() {
-    //random value between [0,100]
-    int random = rand() % (101);
-    if (random >= 60) return basicAttack();
-    else if (random >= 20) return heal();
-    else if (random >= 1) return specialAttack();
-    else return getLucky();
+    // random value between [0,100]
+    int random = rand() % 101;
+    if (random >= 60) return BASIC_ATTACK;
+    else if (random >= 20) return HEAL;
+    else if (random >= 1) return SPECIAL_ATTACK;
+    else return GET_LUCKY;
 }
 
-// Does a set amount of  little damage
+int grunt::attack() {
+    switch (pickMove()) {
+        case BASIC_ATTACK:   return basicAttack();
+        case HEAL:           return heal();
+        case SPECIAL_ATTACK: return specialAttack();
+        default:             return getLucky();
+    }
+}
+
 int grunt::basicAttack() {
     return 20;
 }
-// Does random amount of damage 1-60
-// Could be good, could be bad
+
 int grunt::specialAttack() {
     return rand() % 60 + 1;
 }
-// heal a little 
+
 int grunt::heal() {
-    setHealth(health+20);
+    setHealth(health + 20);
+    return 0;
 }
-// 1% chance of happening, but will do massive damage
+
 int grunt::getLucky() {
     return 300;
 }

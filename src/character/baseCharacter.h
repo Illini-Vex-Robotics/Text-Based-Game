@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 
 #include "enemy/baseEnemy.h"
 #include <vector>
@@ -13,25 +12,27 @@ public:
         string description;
         int minDamage;
         int maxDamage;
-        int defenseModifier;
+        int baseDefense;
     };
 
-    BaseCharacter(int h, vector<attackInfo> ai, int d): health(h), defense(d), attacks(ai){}
+    BaseCharacter(int h, vector<attackInfo> ai, int d);
     int getHealth();
     void takeDamage(int damage);
 
     void addAttack(attackInfo& atk);
 
-    void getAttack(int index, baseEnemy& enemy);
+    void getAttack(int index, baseEnemy* enemy);
     void listAttacks();
 
     int getDefense();
     void setDefense(int d);
-    void takeDamage(int damage);
+    //void takeDamage(int damage);
 
-    void attack(baseEnemy& enemy, int damage);
-    
+    void attack(baseEnemy* enemy, int damage);
+    int getMaxHealth();
+    vector<attackInfo> getAttacks();
 private:
+    int maxHealth;
     int health;
     vector<attackInfo> attacks;
     /*

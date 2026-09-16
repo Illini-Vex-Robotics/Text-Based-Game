@@ -1,57 +1,80 @@
 #include "darthVader.h"
 
-darthVader::darthVader(){
-    maxHealth = 300;
-    health = maxHealth;
+darthVader::darthVader() : baseEnemy(300) {
     stamina = 100;
 }
-darthVader::forcePush(){
-    if(checkTurn()){
-        if (health + 10 <= maxHealth){health += 10;}
-        else{health = maxHealth;}
+
+bool darthVader::checkTurn() {
+    int rand = std::rand() % 101;
+    if (rand <= stamina) { return true; }
+    else {
+        stamina = 100;
+        std::cout << "Didn't have enough stamina to attack" << std::endl;
+        return false;
+    }
+}
+
+int darthVader::pickMove() {
+    return std::rand() % 5;
+}
+
+int darthVader::attack() {
+    switch (pickMove()) {
+        case FORCE_PUSH:       return forcePush();
+        case FORCE_HEAL:       return forceHeal();
+        case FORCE_CHOKE:      return forceChoke();
+        case YOUNGLING_SLAYER: return younglingSlayer();
+        default:               return throwShit();
+    }
+}
+
+int darthVader::forcePush() {
+    if (checkTurn()) {
+        setHealth(health + 10);
         stamina = 80;
-        std::cout << "Darth Vader used force push" << endl;
+        std::cout << "Darth Vader used force push" << std::endl;
+        std::cout << "Force Push did 30 damage and healed Darth Vader 10" << std::endl;
         return 30;
     }
     return 0;
 }
-darthVader::forceHeal(){
-    if(checkTurn()){
+
+int darthVader::forceHeal() {
+    if (checkTurn()) {
         health = maxHealth;
-        stamina = 80
-        std::cout << "Darth Vader used force heal" << endl;
+        stamina = 80;
+        std::cout << "Darth Vader used force heal" << std::endl;
+        std::cout << "Force Heal fully healed Darth Vader" << std::endl;
     }
     return 0;
 }
-darthVader::forceChoke(){
-    if(checkTurn()){
+
+int darthVader::forceChoke() {
+    if (checkTurn()) {
         stamina = 20;
-        std::cout << "Darth Vader used force choke" << endl;
+        std::cout << "Darth Vader used force choke" << std::endl;
+        std::cout << "Force Choke did 80 damage" << std::endl;
         return 80;
     }
     return 0;
 }
-darthVader::younglingSlayer(){
-    if(checkTurn()){
+
+int darthVader::younglingSlayer() {
+    if (checkTurn()) {
         stamina = 0;
-        std::cout << "Darth Vader thought your were a youngling" << endl;
+        std::cout << "Darth Vader thought your were a youngling" << std::endl;
+        std::cout << "Darth Vader did 100 damage" << std::endl;
         return 100;
     }
     return 0;
 }
-darthVader::throwShit(){
-    if(checkTurn()){
+
+int darthVader::throwShit() {
+    if (checkTurn()) {
         stamina = 40;
-        std::cout << "Darth Vader threw shit at you" << endl;
+        std::cout << "Darth Vader threw shit at you" << std::endl;
+        std::cout << "Some random object did 60 damage" << std::endl;
         return 60;
     }
     return 0;
-}
-darthVader::attack(){
-    rand = rand() % 5;
-    if (rand == 0){return forcePush();}
-    else if (rand == 1){return forceHeal();}
-    else if (rand == 2){return forceChoke();}
-    else if (rand == 3){return younglingSlayer();}
-    else{return throwShit();}
 }
