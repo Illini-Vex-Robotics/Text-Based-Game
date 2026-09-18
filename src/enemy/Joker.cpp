@@ -53,8 +53,8 @@ int joker::laughingGas() {
     if (checkTurn()) {
         stamina = 20;
         std::cout << "Joker threw laughing gas at you" << std::endl;
-        std::cout << "The Laughing Gas did 80 damage" << std::endl;
-        return 80;
+        std::cout << "The Laughing Gas did 30 damage" << std::endl;
+        return 30;
     }
     return 0;
 }
@@ -63,8 +63,8 @@ int joker::nuclearBomb() {
     if (checkTurn()) {
         stamina = 0;
         std::cout << "Joker sent a nuclear bomb at you" << std::endl;
-        std::cout << "The Nuclear Bomb did 100 damage" << std::endl;
-        return 100;
+        std::cout << "The Nuclear Bomb did 60 damage" << std::endl;
+        return 60;
     }
     return 0;
 }
@@ -73,8 +73,8 @@ int joker::explosivePie() {
     if (checkTurn()) {
         stamina = 40;
         std::cout << "Joker threw an explosive pie at you" << std::endl;
-        std::cout << "The pie did 60 damage" << std::endl;
-        return 60;
+        std::cout << "The pie did 30 damage" << std::endl;
+        return 30;
     }
     return 0;
 }

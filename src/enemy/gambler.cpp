@@ -5,7 +5,7 @@ gambler::gambler() {
     multiplier = 1.0;
     // random health between 200-800
     srand((unsigned int)time(NULL));
-    maxHealth = rand() % 601 + 200;
+    maxHealth = rand() % 60 + 60;
     health = maxHealth;
     isSkiped = false;
 }
@@ -19,7 +19,7 @@ int gambler::pickMove() {
 }
 
 int gambler::attack() {
-    // A lost coin flip costs him the following turn
+    
     if (isSkiped) {
         isSkiped = false;
         std::cout << "The gambler is still counting his losses and skips a turn" << std::endl;
@@ -40,12 +40,12 @@ int gambler::attack() {
 int gambler::jackpot() {
     int randDam = rand() % 101;
     int payout;
-    if (randDam >= 80) payout = 40;
-    else if (randDam >= 60) payout = 80;
-    else if (randDam >= 40) payout = 120;
-    else if (randDam >= 20) payout = 160;
-    else if (randDam >= 10) payout = 200;
-    else payout = 500;
+    if (randDam >= 80) payout = 5;
+    else if (randDam >= 60) payout = 10;
+    else if (randDam >= 40) payout = 15;
+    else if (randDam >= 20) payout = 25;
+    else if (randDam >= 10) payout = 35;
+    else payout = 60;
     return (int)(payout * multiplier);
 }
 
@@ -53,9 +53,8 @@ int gambler::coinFlip() {
     if (rand() % 2 == 1) {
         std::cout << "The gambler called the coin flip and cashed in" << std::endl;
         setHealth(getHealth() + 40);
-        return 80 * multiplier;
+        return 25 * multiplier;
     }
-    // A bad beat, so the multiplier climbs - eventually he must hit the jackpot
     std::cout << "The gambler missed the coin flip and loses his next turn" << std::endl;
     isSkiped = true;
     multiplier += 0.3;
@@ -73,7 +72,7 @@ int gambler::dealOrNo() {
     if (rand() % 2 == 1) {
         std::cout << "The gambler took the deal" << std::endl;
         multiplier += 0.2;
-        return 160 * multiplier;
+        return 20 * multiplier;
     }
     std::cout << "The gambler passed on the deal and walked away healthier" << std::endl;
     setHealth(getHealth() + 200);
@@ -83,5 +82,5 @@ int gambler::dealOrNo() {
 
 int gambler::ace() {
     multiplier += 0.3;
-    return (int)(100 * multiplier);
+    return (int)(30 * multiplier);
 }

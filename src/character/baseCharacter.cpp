@@ -12,12 +12,8 @@ int BaseCharacter::getHealth(){
     return this->health;
 }
 
-int BaseCharacter::getMaxHealth(){
-    return this->maxHealth;
-}
-
 void BaseCharacter::takeDamage(int damage){
-    health = health - clamp((damage - defense), 0, INT_MAX);
+    health = max(0, health - clamp((damage - defense), 0, INT_MAX));
 }
 
 //change to void return type in .h and .cpp
@@ -26,7 +22,7 @@ void BaseCharacter::takeDamage(int damage){
 //modify our own defense
 
 void BaseCharacter::getAttack(int index, baseEnemy* enemy){
-    if(index < 0 || index > (int)attacks.size()){
+    if(index < 0 || index >= (int)attacks.size()){
         throw out_of_range("Not an attack!");
         return;
     }
@@ -47,10 +43,12 @@ void BaseCharacter::addAttack(attackInfo& atk){
 }
 
 void BaseCharacter::listAttacks() {
+    cout << attacks.size();
+    cout << "test";
     for(int i = 0; i < attacks.size(); i++){
         attackInfo& a = attacks[i];
         cout << std::to_string(i + 1) + ". Attack name: " + a.name + '\n' + "Attack desc: " + a.description + '\n' + "Damage Range: " + 
-        to_string(a.minDamage) + "~" + to_string(a.maxDamage) + '\n' + to_string(a.baseDefense) << '\n\n';
+        to_string(a.minDamage) + "~" + to_string(a.maxDamage) + '\n' + to_string(a.baseDefense) << "\n\n";
     }
 }
 

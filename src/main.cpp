@@ -1,3 +1,8 @@
+#ifdef _WIN32
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#endif
 #include <iostream>
 
 #include "character/baseCharacter.h"
@@ -8,6 +13,10 @@
 #include "enemy/Joker.h"
 
 #include <string>
+#include <algorithm>
+#include <chrono>
+#include <thread>
+#include <memory>
 
 void addSpyAttacks(BaseCharacter& spy) {
     BaseCharacter::attackInfo espionage{std::string("Espionage"), std::string("Gain info about next enemy attack to raise defense\n5-8 damage\nRaises defense by 15"), 5, 8, 15};
@@ -31,33 +40,46 @@ void addIronManAttacks (BaseCharacter& ironMan) {
 
 void addHulkAttacks (BaseCharacter& hulk) {
     BaseCharacter::attackInfo left_handed_punch {std::string("Left Handed Punch"), std::string("Deliver a brutal left handed jab at the enemy\nNot very accurate but medium-level damage\n4-6 damage"),4,6,0};
-    BaseCharacter::attackInfo right_handed_punch {std::string("Left Handed Punch"), std::string("Deliver a brutal right handed jab at the enemy\nVery accurate and high damage potential\n7-9 damage\nConfidence boost: Raise defense by 5"),7,9,5};
+    BaseCharacter::attackInfo right_handed_punch {std::string("Right Handed Punch"), std::string("Deliver a brutal right handed jab at the enemy\nVery accurate and high damage potential\n7-9 damage\nConfidence boost: Raise defense by 5"),7,9,5};
     BaseCharacter::attackInfo chuck_car {std::string("Chuck Car"), std::string("Launch a random car at your enemy\n Hit or miss, but depending on the size of the car, high damage could be dealt\n1-9 damage"),1,9,0};
     hulk.addAttack(left_handed_punch);
     hulk.addAttack(right_handed_punch);
     hulk.addAttack(chuck_car);
 }   
 
+void pause(int ms = 800) {
+    std::cout << std::flush;
+    std::this_thread::sleep_for(std::chrono::milliseconds(ms));
+}
+
+void clearScreen() {
+    std::cout << "\033[2J\033[H" << std::flush;
+}
+
 void titleScreen(){
     std::cout << "\tWelcome to Crossed Lines!" << std::endl;
     for (int i = 0; i < 20; i++){std::cout << "-";}
 }
 
-//pass in a player reference and enemy reference, make sure they are both t
 bool checkPlaying(BaseCharacter& player, baseEnemy* enemy) {
     if (player.getHealth() == 0) {
-        std::cout << "The player has died a heroic death.";
+        pause();
+        std::cout << "\nThe player has died a heroic death.\n";
+        pause(1500);
         return false;
     }
     if (enemy->getHealth() <= 0) {
-        std::cout << "The enemey has died a brutal death.";
+        pause();
+        std::cout << "\nThe enemy has died a brutal death.\n";
+        pause(1500);
         return false;
     }
+    return true;
 }
 
 void displayHealthBar(int health, int max) {
     int maxWidth = 20;
-    int width = (health * maxWidth) / max;
+    int width = std::clamp((health * maxWidth) / max, 0, maxWidth);
     std::string curr = "";
     for (int i = 0; i < width; ++i) {
         curr += "█";
@@ -65,30 +87,56 @@ void displayHealthBar(int health, int max) {
     for (int i = 0; i < maxWidth - width; ++i) {
         curr += "░";
     }
-    std::cout << "\nHealth: " + curr;
+    std::cout << "\nHealth: [" + curr + "] - " + std::to_string(health) + "/" + std::to_string(max);
 }
 
 void characterTurn(BaseCharacter& character, baseEnemy* enemy) {
-    std::cout << "\nSelect an attack:";
+    clearScreen();
+    std::cout << "You";
+    displayHealthBar(character.getHealth(), character.getMaxHealth());
+    std::cout << "\n\n" << enemy->getName();
+    displayHealthBar(enemy->getHealth(), enemy->getMaxHealth());
+    std::cout << "\n\nSelect an attack:";
+    std::cout << character.getHealth();
     character.listAttacks();
     int attack;
-    while (!(std::cin >> attack && attack > 0 && attack < character.getAttacks().size())) {
+    while (!(std::cin >> attack && attack > 0 && attack <= (int)character.getAttacks().size())) {
         std::cout << "Invalid input, try again!: ";
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    character.getAttack(attack, enemy);
+    character.getAttack(attack - 1, enemy);
+    pause();
+    //print character name
     displayHealthBar(character.getHealth(), character.getMaxHealth());
+    displayHealthBar(enemy->getHealth(), enemy->getMaxHealth());
+    //add one to display enemy + enemy name
+    std::cout << enemy->getName();
+    pause(1200);
 }
 
 void enemyTurn(BaseCharacter & character, baseEnemy* enemy) {
     std::cout << "\n\nSelect an attack:";
+    pause();
     int damageDone = enemy->attack();
     character.takeDamage(damageDone);
+    pause(2000);
+    //print health bars
 }
 
-int main() {
+bool askPlayAgain(const std::string& result) {
+    std::cout << "\n" << result << "\n1. Play Again\n2. Quit\n";
+    int selection = 0;
+    while (!(std::cin >> selection && selection > 0 && selection < 3)) {
+        std::cout << "Invalid input, try again!: ";
+        std::cin.clear();
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
+    return selection == 1;
+}
 
+bool playGame() {
+    clearScreen();
     int selection;
     std::cout << "\nSelect a character:\n1. Spy\n2. Iron Man\n3. Hulk\n";
     while (!(std::cin >> selection && selection > 0 && selection < 4)) {
@@ -96,32 +144,51 @@ int main() {
         std::cin.clear();
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     }
-    BaseCharacter spy(50, {}, 10);
+    BaseCharacter spy(70, {}, 10);
+    addSpyAttacks(spy);
     BaseCharacter selectedCharacter = spy;
-    if (selection == 1) {
-        addSpyAttacks(spy);
-    } else if (selection == 2) {
-        BaseCharacter ironMan(75, {}, 20);
+    if (selection == 2) {
+        BaseCharacter ironMan(100, {}, 50);
         addIronManAttacks(ironMan);
         selectedCharacter = ironMan;
     } else if (selection == 3) {
-        BaseCharacter hulk(90, {}, 25);
+        BaseCharacter hulk(120, {}, 35);
         addHulkAttacks(hulk);
         selectedCharacter = hulk;
     }
-    std::vector<baseEnemy*> enemyList = {};
-    grunt* enemyGrunt = new grunt();
-    enemyList.insert(enemyList.begin(), enemyGrunt);
-    for (int i = 0; i < enemyList.size(); i++) {
-        auto currEnemy = enemyList.at(i);
+
+    std::vector<std::unique_ptr<baseEnemy>> enemyList;
+    enemyList.push_back(std::make_unique<grunt>());
+    enemyList.push_back(std::make_unique<gambler>());
+    enemyList.push_back(std::make_unique<joker>());
+    enemyList.push_back(std::make_unique<darthVader>());
+
+    for (auto& enemy : enemyList) {
+        baseEnemy* currEnemy = enemy.get();
         for (bool gamePlaying = true; gamePlaying != false; gamePlaying = checkPlaying(selectedCharacter, currEnemy)) {
             characterTurn(selectedCharacter, currEnemy);
-            enemyTurn(selectedCharacter,currEnemy);
+            if (!currEnemy->isDead()) {
+                enemyTurn(selectedCharacter,currEnemy);
+            }
+        }
+        if (selectedCharacter.getHealth() == 0) {
+            return askPlayAgain("You lose");
         }
     }
+    return askPlayAgain("You win");
+}
 
-    std::cout << "Hello IVR" << std::endl;
-    delete enemyGrunt;
+int main() {
+#ifdef _WIN32
+    SetConsoleOutputCP(CP_UTF8);
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD mode = 0;
+    if (GetConsoleMode(out, &mode)) {
+        SetConsoleMode(out, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+    }
+#endif
+
+    while (playGame()) {}
     return 0;
 }
 

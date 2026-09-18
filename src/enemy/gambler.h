@@ -11,14 +11,14 @@ class gambler : public baseEnemy {
         bool isSkiped;
 
     public:
-        // The moves gambler can use. ACE is not in pickMove()'s rotation yet -
-        // it is the gambler's ace to pull when the game loop wants it.
         enum move { JACKPOT, REHAB, COIN_FLIP, DEAL_OR_NO, ACE };
 
         gambler();
 
         int pickMove() override;
         int attack() override;
+        std::string getName() {return "Gambler";};
+
 
         // Does either 40, 80, 120, 160, 200, 500 which is amplified by multiplier
         int jackpot();

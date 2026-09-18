@@ -53,8 +53,8 @@ int darthVader::forceChoke() {
     if (checkTurn()) {
         stamina = 20;
         std::cout << "Darth Vader used force choke" << std::endl;
-        std::cout << "Force Choke did 80 damage" << std::endl;
-        return 80;
+        std::cout << "Force Choke did 40 damage" << std::endl;
+        return 40;
     }
     return 0;
 }
@@ -63,8 +63,8 @@ int darthVader::younglingSlayer() {
     if (checkTurn()) {
         stamina = 0;
         std::cout << "Darth Vader thought your were a youngling" << std::endl;
-        std::cout << "Darth Vader did 100 damage" << std::endl;
-        return 100;
+        std::cout << "Darth Vader did 55 damage" << std::endl;
+        return 55;
     }
     return 0;
 }
@@ -73,8 +73,8 @@ int darthVader::throwShit() {
     if (checkTurn()) {
         stamina = 40;
         std::cout << "Darth Vader threw shit at you" << std::endl;
-        std::cout << "Some random object did 60 damage" << std::endl;
-        return 60;
+        std::cout << "Some random object did 20 damage" << std::endl;
+        return 20;
     }
     return 0;
 }

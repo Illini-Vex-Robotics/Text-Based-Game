@@ -14,7 +14,7 @@ bool baseEnemy::isDead() {
     return health <= 0;
 }
 
-void baseEnemy::setHealth(int h) {
+void baseEnemy::setHealth(int h) { 
     health = h;
     if (health > maxHealth) health = maxHealth;
     if (health < 0) health = 0;

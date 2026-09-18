@@ -21,18 +21,22 @@ int grunt::attack() {
 }
 
 int grunt::basicAttack() {
-    return 20;
+    std::cout << "The grunt attacks you with a club for 10 damage.";
+    return 10;
 }
 
 int grunt::specialAttack() {
-    return rand() % 60 + 1;
+    std::cout << "The grunt uses all of their might to hit you";
+    return rand() % 30 + 1;
 }
 
 int grunt::heal() {
+    std::cout << "The grunt ate a well balanced meal to heal 20 health;";
     setHealth(health + 20);
     return 0;
 }
 
 int grunt::getLucky() {
-    return 300;
+    std::cout << "The grunt fell and stabbed the character doing 60 damage;";
+    return 60;
 }
